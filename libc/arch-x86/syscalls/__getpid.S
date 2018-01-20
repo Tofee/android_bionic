@@ -3,16 +3,8 @@
 #include <private/bionic_asm.h>
 
 ENTRY(__getpid)
-
-    call    __kernel_syscall
-    pushl   %eax
-    .cfi_adjust_cfa_offset 4
-    .cfi_rel_offset eax, 0
-
     movl    $__NR_getpid, %eax
-    call    *(%esp)
-    addl    $4, %esp
-
+    int     $0x80
     cmpl    $-MAX_ERRNO, %eax
     jb      1f
     negl    %eax

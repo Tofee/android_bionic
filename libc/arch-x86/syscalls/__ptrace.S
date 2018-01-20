@@ -15,20 +15,12 @@ ENTRY(__ptrace)
     pushl   %esi
     .cfi_adjust_cfa_offset 4
     .cfi_rel_offset esi, 0
-
-    call    __kernel_syscall
-    pushl   %eax
-    .cfi_adjust_cfa_offset 4
-    .cfi_rel_offset eax, 0
-
-    mov     24(%esp), %ebx
-    mov     28(%esp), %ecx
-    mov     32(%esp), %edx
-    mov     36(%esp), %esi
+    mov     20(%esp), %ebx
+    mov     24(%esp), %ecx
+    mov     28(%esp), %edx
+    mov     32(%esp), %esi
     movl    $__NR_ptrace, %eax
-    call    *(%esp)
-    addl    $4, %esp
-
+    int     $0x80
     cmpl    $-MAX_ERRNO, %eax
     jb      1f
     negl    %eax

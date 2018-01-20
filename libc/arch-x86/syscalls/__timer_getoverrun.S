@@ -6,17 +6,9 @@ ENTRY(__timer_getoverrun)
     pushl   %ebx
     .cfi_def_cfa_offset 8
     .cfi_rel_offset ebx, 0
-
-    call    __kernel_syscall
-    pushl   %eax
-    .cfi_adjust_cfa_offset 4
-    .cfi_rel_offset eax, 0
-
-    mov     12(%esp), %ebx
+    mov     8(%esp), %ebx
     movl    $__NR_timer_getoverrun, %eax
-    call    *(%esp)
-    addl    $4, %esp
-
+    int     $0x80
     cmpl    $-MAX_ERRNO, %eax
     jb      1f
     negl    %eax

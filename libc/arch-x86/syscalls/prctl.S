@@ -18,21 +18,13 @@ ENTRY(prctl)
     pushl   %edi
     .cfi_adjust_cfa_offset 4
     .cfi_rel_offset edi, 0
-
-    call    __kernel_syscall
-    pushl   %eax
-    .cfi_adjust_cfa_offset 4
-    .cfi_rel_offset eax, 0
-
-    mov     28(%esp), %ebx
-    mov     32(%esp), %ecx
-    mov     36(%esp), %edx
-    mov     40(%esp), %esi
-    mov     44(%esp), %edi
+    mov     24(%esp), %ebx
+    mov     28(%esp), %ecx
+    mov     32(%esp), %edx
+    mov     36(%esp), %esi
+    mov     40(%esp), %edi
     movl    $__NR_prctl, %eax
-    call    *(%esp)
-    addl    $4, %esp
-
+    int     $0x80
     cmpl    $-MAX_ERRNO, %eax
     jb      1f
     negl    %eax

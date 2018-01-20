@@ -9,18 +9,10 @@ ENTRY(delete_module)
     pushl   %ecx
     .cfi_adjust_cfa_offset 4
     .cfi_rel_offset ecx, 0
-
-    call    __kernel_syscall
-    pushl   %eax
-    .cfi_adjust_cfa_offset 4
-    .cfi_rel_offset eax, 0
-
-    mov     16(%esp), %ebx
-    mov     20(%esp), %ecx
+    mov     12(%esp), %ebx
+    mov     16(%esp), %ecx
     movl    $__NR_delete_module, %eax
-    call    *(%esp)
-    addl    $4, %esp
-
+    int     $0x80
     cmpl    $-MAX_ERRNO, %eax
     jb      1f
     negl    %eax
